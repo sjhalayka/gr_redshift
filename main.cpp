@@ -47,21 +47,12 @@ void proceed_Euler(custom_math::vector_3& pos, custom_math::vector_3& vel, const
 
 	// Note: initial photon_wavelength and dt are 1.0
 
+	const long double r_inf = 1000000 * speed_of_light;
+	const long double wl_sortof_inf = wl_emit * (sqrt(1.0 - Rs / r_inf) / sqrt(1.0 - Rs / r_emit));
 
-	const long double wl_inf = 1.0 / sqrt(1 - Rs / r_emit);
+	photon_wavelength += speed_of_light * Rs / (2 * distance * distance * sqrt(1 - Rs / distance));
 
-
-
-	{
-		const long double wl_inf = wl_emit / sqrt(1 - Rs / r_emit);
-		const long double r_inf = distance;
-		const long double wl_sortof_int = wl_emit * (sqrt(1.0 - Rs / r_inf) / sqrt(1.0 - Rs / r_emit));
-
-		photon_wavelength += speed_of_light * Rs / (2 * r_inf * r_inf * sqrt(1 - Rs / r_inf));
-	}
-
-
-	cout << (photon_wavelength) << " " << (wl_inf) << " " << (photon_wavelength) / (wl_inf) << endl << endl;
+	cout << (photon_wavelength) << " " << (wl_sortof_inf) << " " << (photon_wavelength) / (wl_sortof_inf) << endl << endl;
 
 
 
