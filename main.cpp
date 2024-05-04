@@ -27,7 +27,7 @@ custom_math::vector_3 grav_acceleration(const custom_math::vector_3& pos, const 
 
 	long double distance = grav_dir.length();
 	grav_dir.normalize();
-	const long double x = 1;// 2 - sqrt(1 - (vel.length() * vel.length()) / (speed_of_light * speed_of_light));
+	const long double x = 2 - sqrt(1 - (vel.length() * vel.length()) / (speed_of_light * speed_of_light));
 
 	custom_math::vector_3 accel = grav_dir * x * G * sun_mass / pow(distance, 2.0);
 
@@ -41,7 +41,7 @@ void proceed_Euler(custom_math::vector_3& pos, custom_math::vector_3& vel, const
 	const custom_math::vector_3 grav_dir = sun_pos - pos;
 	const long double distance = grav_dir.length();
 	const long double Rs = 2 * grav_constant * sun_mass / (speed_of_light * speed_of_light);
-	const long double beta = 1;// sqrt(1.0 - Rs / r_emit);
+	const long double beta = sqrt(1.0 - Rs / distance);
 
 
 
@@ -51,11 +51,11 @@ void proceed_Euler(custom_math::vector_3& pos, custom_math::vector_3& vel, const
 	const long double r_inf = 1000000 * sun_radius;
 	const long double wl_sortof_inf = wl_emit * (sqrt(1.0 - Rs / r_inf) / sqrt(1.0 - Rs / r_emit));
 
-	// Post-Newtonian
-//	photon_wavelength += speed_of_light * Rs / (2 * distance * distance * sqrt(1 - Rs / distance));
+	// Post-Newtonian -- this is the gradient of the gravitational time dilation times the speed of light
+	photon_wavelength += speed_of_light * Rs / (2 * distance * distance * sqrt(1 - Rs / distance));
 
 	// Newtonian
-	photon_wavelength += accel.length() / speed_of_light;
+//	photon_wavelength += 0.5 * accel.length() / speed_of_light;
 
 
 
